@@ -18,6 +18,7 @@ class TestCase extends Orchestra\Testbench\TestCase
             '--realpath' => realpath(__DIR__.'/../database/migrations'),
         ]);
         $this->withFactories(__DIR__.'/../database/factories');
+
     }
     /**
      * Define environment setup.
@@ -40,5 +41,9 @@ class TestCase extends Orchestra\Testbench\TestCase
     {
         return ['LasseHaslev\LaravelPackageRouter\Providers\ServiceProvider'];
     }
+    protected function resolveApplicationHttpKernel($app)
+{
+    $app->singleton('Illuminate\Contracts\Http\Kernel', 'Acme\Testbench\Http\Kernel');
+}
 
 }

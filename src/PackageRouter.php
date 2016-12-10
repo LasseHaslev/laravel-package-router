@@ -1,99 +1,107 @@
 <?php
 
-namespace LasseHaslev\LaravelImage\Http;
+namespace LasseHaslev\LaravelPackageRouter;
 
 use Illuminate\Support\Facades\Route;
 use LasseHaslev\LaravelImage\Http\Controllers\ImagesController;
-// use Illuminate\Routing\Route;
+use LasseHaslev\UniversalObjects\Object as UniversalObject;
 
 /**
  * Class Routing
  * @author Lasse S. Haslev
  */
-class Routing
+class PackageRouter extends UniversalObject
 {
-    protected $routes = [
-        'download',
-        'backend'=>[
-            'index',
-            'store',
-            'update',
-            'delete',
-        ],
-    ];
+    protected $routes = [];
 
     /**
      * undocumented function
      *
      * @return void
      */
-    public function routes( string $groupName = null )
+    public function routes( string $namespace = null )
     {
-        if ( ! $groupName ) {
-            return $this->getRouteGroup( $this->routes, true );
-        }
-
-        return $this->getRouteGroup( $this->routes[ $groupName ] );
+        return $this->getOnlyRoutesWithNamespace( $namespace );
     }
 
     /**
-     * undocumented function
+     * Get the number of routes registered
      *
      * @return void
      */
-    public function getRouteGroup(array $array = [], $recursive = false)
+    public function count( $namespace = null )
     {
-        foreach ($array as $key=>$routes) {
-            if ( is_array( $routes ) && $recursive ) {
-                $this->getRouteGroup( $routes, $recursive );
+        return count( $this->routes( $namespace ) );
+    }
+
+
+    /**
+     * Add new object
+     *
+     * @return $this
+     */
+    public function add(string $routeName, array $routeObject)
+    {
+        $this->routes[ $routeName ] = $routeObject;
+    }
+
+    /**
+     * Get only routes with namespace
+     *
+     * @return array
+     */
+    protected function getOnlyRoutesWithNamespace($namespace)
+    {
+        if ( ! $namespace ) {
+            return $this->routes;
+        }
+
+        $routeKeys = $this->routeKeysInNamespace($namespace);
+
+        $routes = $this->getRoutesByKeys($routeKeys);
+        return $routes;
+    }
+
+    /**
+     * Get all routes by array with keys
+     *
+     * @return array
+     */
+    protected function getRoutesByKeys($routeKeys)
+    {
+        $routes = [];
+        foreach ( $this->routes as $key=>$value ) {
+            if ( in_array( $key, $routeKeys ) ) {
+                $routes[ $key ] = $value;
             }
-            else {
-                $this->route( $routes );
-            }
         }
+        return $routes;
     }
 
-    /**
-     * Get named routes or all routes
+    /*
+     * Find all array keys in routes that starts with namespace
      *
-     * @return void
+     * @return array
      */
-    public function route( string $routeName = null )
+    protected function routeKeysInNamespace($namespace)
     {
-        switch ($routeName) {
-            case 'index':
-                return $this->getRoute( 'images.index', 'images', 'index' );
-                break;
-            case 'store':
-                return $this->getRoute( 'images.store', 'images/store', 'store', 'post' );
-                break;
-            case 'update':
-                return $this->getRoute('images.update', 'images/{image}', 'update', 'put' );
-                break;
-            case 'delete':
-                return $this->getRoute('images.destroy', 'images/{image}', 'destroy', 'delete' );
-                break;
-            case 'download':
-                return $this->getRoute('images.download', 'images/{image}/download', 'download', 'post' );
-                break;
-            case null:
-                return $this->routes();
-                break;
-            default:
-                abort( 500, sprintf( 'No route of name %s found.', $routeName ) );
-                break;
-        }
+        $routeKeys = array_where( array_keys( $this->routes ), function ($value, $key) use ( $namespace )
+        {
+            return substr( $value, 0, strlen( $namespace ) ) === $namespace;
+        } );
+        return $routeKeys;
     }
 
     /**
-     * undocumented function
+     * Build a route from route object
      *
      * @return void
      */
-    protected function getRoute($name, $uri, $method, $routeMethod = 'get')
+    public function buildRoute( $name, $object )
     {
         $router = app('router');
-        $router->match( $routeMethod, $uri, sprintf( '\%s@%s', ImagesController::class, $method ) )->name( $name );
+        $router->match( $object[ 'method' ], $object )->name( $name );
     }
+
 
 }
