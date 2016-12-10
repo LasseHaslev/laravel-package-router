@@ -43,6 +43,7 @@ class PackageRouter extends UniversalObject
     public function add(string $routeName, array $routeObject)
     {
         $this->routes[ $routeName ] = $routeObject;
+        return $this;
     }
 
     /**

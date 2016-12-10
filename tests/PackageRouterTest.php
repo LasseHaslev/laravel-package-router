@@ -48,6 +48,18 @@ class PackageRouterTest extends TestCase
     }
 
     /** @test */
+    public function add_method_returns_instance_of_object_for_binding() {
+        $instance = $this->router->add( 'images.index', [
+            'uri'=>'images',
+            'method'=>'get',
+            'function'=>'index',
+            'uses'=>'SomethingSomething',
+        ] );
+
+        $this->assertInstanceOf( TestRouter::class, $instance );
+    }
+
+    /** @test */
     public function can_filter_namespaces() {
         $this->router->add( 'images.index', [
             'uri'=>'images',
