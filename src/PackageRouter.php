@@ -62,8 +62,25 @@ class PackageRouter extends UniversalObject
      */
     public function add(string $routeName, array $routeObject)
     {
+
+        $this->validateRouteObject($routeObject);
+
         $this->routes[ $routeName ] = $routeObject;
         return $this;
+    }
+
+    protected function validateRouteObject(array $routeObject)
+    {
+        $validations = [
+            'uri',
+            'uses',
+        ];
+        foreach( $validations as $validation ) {
+            if ( ! array_key_exists( $validation, $routeObject ) ) {
+                $properties = join(' and ', array_filter(array_merge(array(join(', ', array_slice($validations, 0, -1))), array_slice($validations, -1)), 'strlen'));
+                abort( 500, sprintf( 'Your route array need to include at least %s keys.', $properties ) );
+            }
+        }
     }
 
     /**

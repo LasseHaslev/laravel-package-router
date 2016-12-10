@@ -1,6 +1,7 @@
 <?php
 
 use LasseHaslev\LaravelPackageRouter\PackageRouter;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class TestRouter extends PackageRouter {}
 
@@ -50,7 +51,6 @@ class PackageRouterTest extends TestCase
         $instance = $this->router->add( 'images.index', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
             'uses'=>'Controller@index',
         ] );
 
@@ -58,17 +58,25 @@ class PackageRouterTest extends TestCase
     }
 
     /** @test */
+    public function is_checking_that_we_have_all_things_we_need_when_adding_new_route() {
+        $this->expectException( HttpException::class );
+        $this->router->add( 'images.index', [
+            'as'=>'images.index',
+            'method'=>'get',
+            'uses'=>'Controller@index',
+        ] );
+    }
+
+    /** @test */
     public function is_getting_all_routes_when_calling_empty_routes() {
         $this->router->add( 'images.index', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
             'uses'=>'Controller@index',
         ] );
         $this->router->add( 'blob.index', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
             'uses'=>'Controller@index',
         ] );
 
@@ -81,13 +89,11 @@ class PackageRouterTest extends TestCase
         $this->router->add( 'images.index', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
             'uses'=>'Controller@index',
         ] );
         $this->router->add( 'blob.index', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
             'uses'=>'Controller@index',
         ] );
 
@@ -100,13 +106,11 @@ class PackageRouterTest extends TestCase
         $this->router->add( 'images.index', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
             'uses'=>'Controller@index',
         ] );
         $this->router->add( 'blob.index', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
             'uses'=>'Controller@index',
         ] );
 
@@ -118,19 +122,16 @@ class PackageRouterTest extends TestCase
         $this->router->add( 'images.index', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
             'uses'=>'Controller@index',
         ] );
         $this->router->add( 'images.show', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
             'uses'=>'Controller@index',
         ] );
         $this->router->add( 'blob.index', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
             'uses'=>'Controller@index',
         ] );
 
@@ -143,19 +144,16 @@ class PackageRouterTest extends TestCase
         $this->router->add( 'images.index', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
             'uses'=>'Controller@index',
         ] );
         $this->router->add( 'images.show', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
             'uses'=>'Controller@index',
         ] );
         $this->router->add( 'blob.index', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
             'uses'=>'Controller@index',
         ] );
 
@@ -168,7 +166,6 @@ class PackageRouterTest extends TestCase
         $this->router->add( 'images.index', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
             'uses'=>'Controller@index',
         ] );
         $this->router->add( 'images.show', [
@@ -183,5 +180,4 @@ class PackageRouterTest extends TestCase
             'uses'=>'TestController@index',
         ], $this->router->route( 'images.show' ));
     }
-    // Is checking that we have all things we need when setting array
 }
