@@ -15,14 +15,26 @@ class PackageRouter extends UniversalObject
     protected $routes = [];
 
     /**
-     * undocumented function
+     * Get all routes of this object
+     * If you set a namespace we will filter it
      *
-     * @return void
+     * @return array
      */
     public function routes( string $namespace = null )
     {
         return $this->getOnlyRoutesWithNamespace( $namespace );
     }
+
+    /**
+     * Get single item of route by namespace
+     *
+     * @return array
+     */
+    public function route( string $namespace )
+    {
+        return array_first( $this->routes( $namespace ) );
+    }
+
 
     /**
      * Get the number of routes registered

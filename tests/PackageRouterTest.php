@@ -165,5 +165,27 @@ class PackageRouterTest extends TestCase
     }
 
     // Route function returns object instead of array
+    /** @test */
+    public function route_function_returns_object_instead_of_array() {
+        $this->router->add( 'images.index', [
+            'uri'=>'images',
+            'method'=>'get',
+            'function'=>'index',
+            'uses'=>'SomethingSomething',
+        ] );
+        $this->router->add( 'images.show', [
+            'uri'=>'images',
+            'method'=>'get',
+            'function'=>'index',
+            'uses'=>'SomethingSomething',
+        ] );
+
+        $this->assertEquals([
+            'uri'=>'images',
+            'method'=>'get',
+            'function'=>'index',
+            'uses'=>'SomethingSomething',
+        ], $this->router->route( 'images.show' ));
+    }
     // Is checking that we have all things we need when setting array
 }
