@@ -32,13 +32,18 @@ class RoutesTest extends TestCase
                 'uri'=>'images/{image}',
                 'uses'=>'Controller@show',
                 'middleware'=>null,
+            ] )
+            ->add( 'users.index', [
+                'as'=>'users.index',
+                'uri'=>'users',
+                'uses'=>'Controller@index',
+                'middleware'=>null,
             ] );
     }
 
     /** @test */
     public function check_route_exists_after_calling_route_function() {
         $this->router->route( 'images.index' );
-        $route = route( 'images.index' );
 
         $this->assertTrue( Route::has( 'images.index' ) );
         $this->assertFalse( Route::has( 'images.show' ) );
@@ -48,12 +53,13 @@ class RoutesTest extends TestCase
     // Check if we returns routes when calling function routes
     /** @test */
     public function check_if_routes_exists_after_calling_routes_function() {
-        // $this->router->routes();
-        // $route = route( 'images.index' );
+        $this->router->routes();
 
-        // $this->assertTrue( Route::has( 'images.index' ) );
-        // $this->assertFalse( Route::has( 'images.show' ) );
-        // $this->assertEquals( url( 'images' ), route( 'images.index' ) );
+        $this->assertTrue( Route::has( 'images.index' ) );
+        $this->assertTrue( Route::has( 'images.show' ) );
+        $this->assertTrue( Route::has( 'users.index' ) );
+        $this->assertEquals( url( 'images' ), route( 'images.index' ) );
+        $this->assertEquals( url( 'users' ), route( 'users.index' ) );
     }
     // Check if we can add routes to route group
 }

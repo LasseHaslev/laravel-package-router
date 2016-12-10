@@ -24,9 +24,9 @@ class PackageRouter extends UniversalObject
     {
         $routeObjects = $this->getOnlyRoutesWithNamespace( $namespace );
 
-        // foreach( $routeObjects as $routeObject ) {
-            // $this->buildRoute( $routeObjects );
-        // }
+        foreach( $routeObjects as $routeObject ) {
+            $this->buildRoute( $routeObject );
+        }
 
         return $routeObjects;
     }

@@ -36,10 +36,10 @@ class PackageRouterTest extends TestCase
     /** @test */
     public function add_routes_to_router() {
         $this->router->add( 'images.index', [
+            'as'=>'images.index',
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
 
         $this->assertEquals( 1, count( $this->router->count() ) );
@@ -51,7 +51,7 @@ class PackageRouterTest extends TestCase
             'uri'=>'images',
             'method'=>'get',
             'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
 
         $this->assertInstanceOf( TestRouter::class, $instance );
@@ -63,13 +63,13 @@ class PackageRouterTest extends TestCase
             'uri'=>'images',
             'method'=>'get',
             'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
         $this->router->add( 'blob.index', [
             'uri'=>'images',
             'method'=>'get',
             'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
 
         $this->assertEquals( 2, count( $this->router->routes() ) );
@@ -82,13 +82,13 @@ class PackageRouterTest extends TestCase
             'uri'=>'images',
             'method'=>'get',
             'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
         $this->router->add( 'blob.index', [
             'uri'=>'images',
             'method'=>'get',
             'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
 
 
@@ -101,13 +101,13 @@ class PackageRouterTest extends TestCase
             'uri'=>'images',
             'method'=>'get',
             'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
         $this->router->add( 'blob.index', [
             'uri'=>'images',
             'method'=>'get',
             'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
 
         $this->assertEquals( 2, $this->router->count() );
@@ -119,19 +119,19 @@ class PackageRouterTest extends TestCase
             'uri'=>'images',
             'method'=>'get',
             'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
         $this->router->add( 'images.show', [
             'uri'=>'images',
             'method'=>'get',
             'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
         $this->router->add( 'blob.index', [
             'uri'=>'images',
             'method'=>'get',
             'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
 
         $this->assertEquals( 2, $this->router->count( 'images' ) );
@@ -144,19 +144,19 @@ class PackageRouterTest extends TestCase
             'uri'=>'images',
             'method'=>'get',
             'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
         $this->router->add( 'images.show', [
             'uri'=>'images',
             'method'=>'get',
             'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
         $this->router->add( 'blob.index', [
             'uri'=>'images',
             'method'=>'get',
             'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
 
         $this->assertEquals( 1, $this->router->count( 'images.show' ) );
@@ -169,7 +169,7 @@ class PackageRouterTest extends TestCase
             'uri'=>'images',
             'method'=>'get',
             'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'Controller@index',
         ] );
         $this->router->add( 'images.show', [
             'uri'=>'images',
