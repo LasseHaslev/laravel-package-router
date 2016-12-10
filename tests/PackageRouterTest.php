@@ -60,6 +60,25 @@ class PackageRouterTest extends TestCase
     }
 
     /** @test */
+    public function is_getting_all_routes_when_calling_empty_routes() {
+        $this->router->add( 'images.index', [
+            'uri'=>'images',
+            'method'=>'get',
+            'function'=>'index',
+            'uses'=>'SomethingSomething',
+        ] );
+        $this->router->add( 'blob.index', [
+            'uri'=>'images',
+            'method'=>'get',
+            'function'=>'index',
+            'uses'=>'SomethingSomething',
+        ] );
+
+        $this->assertEquals( 2, count( $this->router->routes() ) );
+
+    }
+
+    /** @test */
     public function can_filter_namespaces() {
         $this->router->add( 'images.index', [
             'uri'=>'images',
@@ -93,13 +112,58 @@ class PackageRouterTest extends TestCase
             'uses'=>'SomethingSomething',
         ] );
 
-        $this->assertEquals( 1, $this->router->count( 'images' ) );
+        $this->assertEquals( 2, $this->router->count() );
     }
 
-    // Can group routes
+    /** @test */
+    public function has_method_for_getting_filtered_counts() {
+        $this->router->add( 'images.index', [
+            'uri'=>'images',
+            'method'=>'get',
+            'function'=>'index',
+            'uses'=>'SomethingSomething',
+        ] );
+        $this->router->add( 'images.show', [
+            'uri'=>'images',
+            'method'=>'get',
+            'function'=>'index',
+            'uses'=>'SomethingSomething',
+        ] );
+        $this->router->add( 'blob.index', [
+            'uri'=>'images',
+            'method'=>'get',
+            'function'=>'index',
+            'uses'=>'SomethingSomething',
+        ] );
+
+        $this->assertEquals( 2, $this->router->count( 'images' ) );
+    }
 
     // Can get single route by name
-    // Can get all route in namespace
-    // Is getting all routes when calling empty routes
-    // Is getting group when calling routes with group name
+    /** @test */
+    public function can_get_single_route_name() {
+        $this->router->add( 'images.index', [
+            'uri'=>'images',
+            'method'=>'get',
+            'function'=>'index',
+            'uses'=>'SomethingSomething',
+        ] );
+        $this->router->add( 'images.show', [
+            'uri'=>'images',
+            'method'=>'get',
+            'function'=>'index',
+            'uses'=>'SomethingSomething',
+        ] );
+        $this->router->add( 'blob.index', [
+            'uri'=>'images',
+            'method'=>'get',
+            'function'=>'index',
+            'uses'=>'SomethingSomething',
+        ] );
+
+        $this->assertEquals( 1, $this->router->count( 'images.show' ) );
+    }
+
+    // Route function returns object instead of array
+    // Is checking that we have all things we need when setting array
 }
