@@ -9,7 +9,8 @@ This is a [global/universal](https://github.com/LasseHaslev/UniversalObjects) ob
 
 Even tough this package is made to handle routes in packages, it is no trouble using it wherever you want.
 
-#### Register you routes
+#### Register your routes
+Add your routes in ServiceProvider@register
 ```php
 // It is recommended that you extend the class
 class MyRouter extends LasseHaslev\LaravelPackageRouter\PackageRouter {}
