@@ -35,14 +35,25 @@ class RoutesTest extends TestCase
             ] );
     }
 
-    // Check if we returns routes when calling function routes
-
     /** @test */
     public function check_route_exists_after_calling_route_function() {
         $this->router->route( 'images.index' );
         $route = route( 'images.index' );
 
+        $this->assertTrue( Route::has( 'images.index' ) );
+        $this->assertFalse( Route::has( 'images.show' ) );
         $this->assertEquals( url( 'images' ), route( 'images.index' ) );
+    }
+
+    // Check if we returns routes when calling function routes
+    /** @test */
+    public function check_if_routes_exists_after_calling_routes_function() {
+        // $this->router->routes();
+        // $route = route( 'images.index' );
+
+        // $this->assertTrue( Route::has( 'images.index' ) );
+        // $this->assertFalse( Route::has( 'images.show' ) );
+        // $this->assertEquals( url( 'images' ), route( 'images.index' ) );
     }
     // Check if we can add routes to route group
 }
