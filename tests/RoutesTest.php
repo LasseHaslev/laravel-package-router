@@ -61,5 +61,20 @@ class RoutesTest extends TestCase
         $this->assertEquals( url( 'images' ), route( 'images.index' ) );
         $this->assertEquals( url( 'users' ), route( 'users.index' ) );
     }
+
     // Check if we can add routes to route group
+    /** @test */
+    public function can_add_routes_to_route_group() {
+        $router = app( 'router' );
+        $router->group( [ 'prefix'=>'backend' ], function ($router)
+        {
+            TestRouter::get()->routes();
+        } );
+        $this->assertTrue( Route::has( 'images.index' ) );
+        $this->assertTrue( Route::has( 'images.show' ) );
+        $this->assertTrue( Route::has( 'users.index' ) );
+
+        $this->assertEquals( url( 'backend/images' ), route( 'images.index' ) );
+        $this->assertEquals( url( 'backend/users' ), route( 'users.index' ) );
+    }
 }
