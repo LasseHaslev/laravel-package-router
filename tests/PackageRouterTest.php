@@ -2,9 +2,7 @@
 
 use LasseHaslev\LaravelPackageRouter\PackageRouter;
 
-class TestRouter extends PackageRouter {
-
-}
+class TestRouter extends PackageRouter {}
 
 /**
  * Class PackageRouterTest
@@ -176,15 +174,13 @@ class PackageRouterTest extends TestCase
         $this->router->add( 'images.show', [
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'TestController@index',
         ] );
 
         $this->assertEquals([
             'uri'=>'images',
             'method'=>'get',
-            'function'=>'index',
-            'uses'=>'SomethingSomething',
+            'uses'=>'TestController@index',
         ], $this->router->route( 'images.show' ));
     }
     // Is checking that we have all things we need when setting array

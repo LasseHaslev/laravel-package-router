@@ -22,7 +22,13 @@ class PackageRouter extends UniversalObject
      */
     public function routes( string $namespace = null )
     {
-        return $this->getOnlyRoutesWithNamespace( $namespace );
+        $routeObjects = $this->getOnlyRoutesWithNamespace( $namespace );
+
+        // foreach( $routeObjects as $routeObject ) {
+            // $this->buildRoute( $routeObjects );
+        // }
+
+        return $routeObjects;
     }
 
     /**
@@ -32,7 +38,9 @@ class PackageRouter extends UniversalObject
      */
     public function route( string $namespace )
     {
-        return array_first( $this->routes( $namespace ) );
+        $routeObject = array_first( $this->routes( $namespace ) );
+        $this->buildRoute( $routeObject );
+        return $routeObject;
     }
 
 
@@ -110,10 +118,11 @@ class PackageRouter extends UniversalObject
      *
      * @return void
      */
-    public function buildRoute( $name, $object )
+    public function buildRoute( $object )
     {
         $router = app('router');
-        $router->match( $object[ 'method' ], $object )->name( $name );
+        $method = isset( $object[ 'method' ] ) ? $object[ 'method' ] : 'get';
+        $router->match( $method, $object['uri'], $object );
     }
 
 
