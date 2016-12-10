@@ -67,7 +67,7 @@ $router->add( $reference, [
     'method'=>'get',
     'as'=>'users.index',
     'uses'=>'Controller@index',
-    'middleware'=>null,
+    // 'middleware'=>'auth', // You can add middleware if you want to
 ] );
 
 // Get all routes
